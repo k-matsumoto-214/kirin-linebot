@@ -1,0 +1,5 @@
+{"properties": [{
+  "name": "line.image.kirin",
+  "type": "java.lang.String",
+  "description": "PATH TO IMAGE FOR DISPLAY"
+}]}
