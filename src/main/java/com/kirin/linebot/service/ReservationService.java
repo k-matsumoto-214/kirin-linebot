@@ -2,6 +2,8 @@ package com.kirin.linebot.service;
 
 import java.time.LocalDate;
 
+import org.springframework.stereotype.Service;
+
 import com.kirin.linebot.repository.ReservationRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -9,6 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @RequiredArgsConstructor
 @Slf4j
+@Service
 public class ReservationService {
 
   private final ReservationRepository reservationRepository;

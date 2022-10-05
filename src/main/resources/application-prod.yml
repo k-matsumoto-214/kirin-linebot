@@ -1,5 +1,6 @@
 spring:
   datasource:
+    url: jdbc:mysql://localhost:3306/KIRIN_RESERVE
     username: KIRIN_PROD
     password: ${MYSQL_PASSWORD}
 

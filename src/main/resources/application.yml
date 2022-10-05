@@ -3,7 +3,6 @@ mybatis:
 
 spring:
   datasource:
-    url: jdbc:mysql://mysql:3306/KIRIN_RESERVE
     driver-class-name: com.mysql.cj.jdbc.Driver
 
 server:
@@ -13,5 +12,5 @@ line:
   bot:
     handler:
       path: /callback
-  image:
-    kirin: /static/image/kirin_reserve.jpeg
+    image:
+      kirin: /static/image/kirin_reserve.jpeg

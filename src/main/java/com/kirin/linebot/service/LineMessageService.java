@@ -54,11 +54,11 @@ public class LineMessageService {
    * @param replyToken 返信用トークン
    * @param targetName 予約を行う対象の名前
    */
-  public void sendReservationDate(@NonNull String replyToken, @NonNull String targetName) {
+  public void sendReservationDate(@NonNull String replyToken, @NonNull List<String> targetNames) {
     if (replyToken.isEmpty()) {
       throw new IllegalArgumentException("replyToken must not be empty");
     }
-    TemplateMessage message = templateFactory.reservationDateMessage(targetName);
+    TemplateMessage message = templateFactory.reservationDateMessage(targetNames);
     try {
       BotApiResponse apiResponse = lineMessagingClient
           .replyMessage(new ReplyMessage(replyToken, Collections.singletonList(message), false))
@@ -69,24 +69,4 @@ public class LineMessageService {
     }
   }
 
-  /**
-   * LINEで予約可能者の一覧を送信する
-   * 
-   * @param replyToken  返信用トークン
-   * @param targetNames 予約可能者の一覧
-   */
-  public void sendReservationName(String replyToken, List<String> targetNames) {
-    if (replyToken.isEmpty()) {
-      throw new IllegalArgumentException("replyToken must not be empty");
-    }
-    TemplateMessage message = templateFactory.reservationNameMessage(targetNames);
-    try {
-      BotApiResponse apiResponse = lineMessagingClient
-          .replyMessage(new ReplyMessage(replyToken, Collections.singletonList(message), false))
-          .get();
-      log.info("Sent messages: {}", apiResponse);
-    } catch (Exception e) {
-      throw new RuntimeException(e);
-    }
-  }
 }

@@ -18,5 +18,5 @@ public class ReservationRepositoryImpl implements ReservationRepository {
   @Override
   public void insertReservationDate(LocalDate reservationDate, String targetName) {
     mapper.insert(reservationDate, targetName);
-  };
+  }
 }
