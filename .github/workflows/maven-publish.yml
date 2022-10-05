@@ -24,6 +24,7 @@ jobs:
           cd ~/repository/kirin-linebot
           git pull origin master
           mvn -B package --file pom.xml
+          kill -9 $(lsof -t -i:8081)
           systemctl --user restart kirin-linebot
           
             
