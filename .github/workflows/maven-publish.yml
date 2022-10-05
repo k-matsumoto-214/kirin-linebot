@@ -13,7 +13,7 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
-    - name: Deploy
+    - name: Execute ssh
       uses: appleboy/ssh-action@master
       with:
         key: ${{ secrets.SSH_KEY }}
@@ -25,6 +25,4 @@ jobs:
           git pull origin master
           mvn -B package --file pom.xml
           export export $(cat config/prod.env | grep -v "#" | xargs)
-          kill -9 $(lsof -t -i:8081)
-          java -jar target/linebot-1.0.0.jar
             
