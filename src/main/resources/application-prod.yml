@@ -8,3 +8,7 @@ line:
   bot:
     channel-token: ${LINE_BOT_CHANNEL_TOKEN}
     channel-secret: ${LINE_BOT_CHANNEL_SECRET}
+
+logging:
+  file:
+    name: ~/repository/logs/kirin-linebot
