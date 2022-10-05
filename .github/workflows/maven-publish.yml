@@ -24,5 +24,6 @@ jobs:
           cd ~/repository/kirin-linebot
           git pull origin master
           mvn -B package --file pom.xml
-          export export $(cat config/prod.env | grep -v "#" | xargs)
+          systemctl --user restart kirin-linebot
+          
             
