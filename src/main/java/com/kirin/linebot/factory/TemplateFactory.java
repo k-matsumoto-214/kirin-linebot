@@ -13,8 +13,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import com.linecorp.bot.model.action.Action;
 import com.linecorp.bot.model.action.DatetimePickerAction;
 import com.linecorp.bot.model.message.TemplateMessage;
-import com.linecorp.bot.model.message.template.CarouselColumn;
-import com.linecorp.bot.model.message.template.CarouselTemplate;
+import com.linecorp.bot.model.message.template.ButtonsTemplate;
 
 @Component
 public class TemplateFactory {
@@ -26,6 +25,8 @@ public class TemplateFactory {
   private static final String LABEL_DATE = "%sの予約";
   private static final String DESCRIPTION_DATE = "予約したい人を選んでください";
   private static final String DEFAULT_ALT_TEXT = "LINEBOTからの返信";
+  private static final ZoneId ZONE_ID = ZoneId.of("Asia/Tokyo");
+  private static final LocalDate MAX_DATE = LocalDate.of(2030, 12, 31);
 
   /**
    * 予約日付一覧を表示するテンプレートを生成するファクトリ
@@ -35,25 +36,23 @@ public class TemplateFactory {
    */
   public TemplateMessage reservationDateMessage(List<String> targetNames) {
     URI imageUrl = this.createURI(imagePath);
-    LocalDate now = LocalDate.now(ZoneId.of("Asia/Tokyo"));
+    LocalDate now = LocalDate.now(ZONE_ID);
     List<Action> datetimePickerActions = targetNames.stream()
         .map(targetName -> DatetimePickerAction.OfLocalDate
             .builder()
             .label(String.format(LABEL_DATE, targetName))
             .initial(now)
             .min(now)
-            .max(LocalDate.parse("2100-12-31"))
+            .max(MAX_DATE)
             .data(targetName)
             .build())
         .collect(Collectors.toUnmodifiableList());
-    CarouselTemplate carouselTemplate = new CarouselTemplate(
-        List.of(
-            new CarouselColumn(
-                imageUrl,
-                DATE_TEXT,
-                DESCRIPTION_DATE,
-                datetimePickerActions)));
-    return new TemplateMessage(DEFAULT_ALT_TEXT, carouselTemplate);
+    ButtonsTemplate buttonTemplate = new ButtonsTemplate(
+        imageUrl,
+        DATE_TEXT,
+        DESCRIPTION_DATE,
+        datetimePickerActions);
+    return new TemplateMessage(DEFAULT_ALT_TEXT, buttonTemplate);
   }
 
   /**

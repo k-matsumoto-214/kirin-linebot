@@ -30,7 +30,7 @@ public class ReservationService {
       reservationRepository.insertReservationDate(date, name);
       return true;
     } catch (Exception e) {
-      log.error("予約データの登録に失敗しちゃったよ。。。　原因: ", e.toString());
+      log.error("予約データの登録に失敗しちゃったよ。。。　原因:{}", e.toString());
       return false;
     }
   }
