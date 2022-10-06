@@ -4,6 +4,9 @@ spring:
     username: KIRIN_PROD
     password: ${MYSQL_PASSWORD}
 
+server:
+  port: ${APP_PORT}
+
 line:
   bot:
     channel-token: ${LINE_BOT_CHANNEL_TOKEN}
