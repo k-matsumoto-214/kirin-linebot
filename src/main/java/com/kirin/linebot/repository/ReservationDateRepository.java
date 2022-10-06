@@ -2,7 +2,7 @@ package com.kirin.linebot.repository;
 
 import java.time.LocalDate;
 
-public interface ReservationRepository {
+public interface ReservationDateRepository {
 
   /**
    * DBに予約予定を挿入します

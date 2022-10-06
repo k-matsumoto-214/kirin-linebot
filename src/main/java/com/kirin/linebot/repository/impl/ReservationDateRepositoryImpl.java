@@ -4,14 +4,14 @@ import java.time.LocalDate;
 
 import org.springframework.stereotype.Repository;
 
-import com.kirin.linebot.repository.ReservationRepository;
+import com.kirin.linebot.repository.ReservationDateRepository;
 import com.kirin.linebot.repository.mapper.ReservationDateMapper;
 
 import lombok.RequiredArgsConstructor;
 
 @Repository
 @RequiredArgsConstructor
-public class ReservationRepositoryImpl implements ReservationRepository {
+public class ReservationDateRepositoryImpl implements ReservationDateRepository {
 
   private final ReservationDateMapper mapper;
 
