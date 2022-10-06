@@ -4,7 +4,7 @@ import java.time.LocalDate;
 
 import org.springframework.stereotype.Service;
 
-import com.kirin.linebot.repository.ReservationRepository;
+import com.kirin.linebot.repository.ReservationDateRepository;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -14,7 +14,7 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 public class ReservationService {
 
-  private final ReservationRepository reservationRepository;
+  private final ReservationDateRepository reservationRepository;
 
   /**
    * DBに予約情報を登録するよ
