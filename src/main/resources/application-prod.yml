@@ -11,4 +11,4 @@ line:
 
 logging:
   file:
-    name: ~/repository/logs/kirin-linebot
+    name: ~/repository/logs/kirin/linebot.log
