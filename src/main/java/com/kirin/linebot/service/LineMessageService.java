@@ -58,7 +58,10 @@ public class LineMessageService {
     if (replyToken.isEmpty()) {
       throw new IllegalArgumentException("replyToken must not be empty");
     }
+
+    // テンプレファクトリクラスから予約可能日付一覧のテンプレを取得
     TemplateMessage message = templateFactory.reservationDateMessage(targetNames);
+
     try {
       BotApiResponse apiResponse = lineMessagingClient
           .replyMessage(new ReplyMessage(replyToken, Collections.singletonList(message), false))

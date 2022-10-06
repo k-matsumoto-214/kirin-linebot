@@ -35,15 +35,26 @@ public class KirinReservationController {
     private static final String RESERVATION_FAILURE_MESSAGE = "%sの予約に失敗しちゃいました。。。(%s)";
 
     @EventMapping
+    /**
+     * BOTに向けて送信された日付情報を解釈します
+     * 
+     * @param event POSTイベント
+     */
     public void handlePostbackEvent(PostbackEvent event) {
         String replyToken = event.getReplyToken();
         String targetName = event.getPostbackContent().getData();
+
+        // 予約対象の日付を取得
         LocalDate targeDate = LocalDate.parse(
                 event.getPostbackContent().getParams().get(POST_BACK_DATE_KEY), DTF_TO_DATE);
+
+        // 表示用に日付を成形する
         String targetDateString = targeDate.format(DTF_TO_STRING);
 
+        // DB登録実行
         boolean isReservationSuccess = reservationService.reserve(targeDate, targetName);
 
+        // DB登録結果によって送信メッセージを変更
         if (isReservationSuccess) {
             lineMessageService.sendText(replyToken,
                     String.format(RESERVATION_SUCCESS_MESSAGE, targetName, targetDateString));
@@ -54,7 +65,12 @@ public class KirinReservationController {
     }
 
     @EventMapping
-    public void handleTextMessageEvent(MessageEvent<TextMessageContent> event) throws Exception {
+    /**
+     * BOT宛に送信されたメッセージを解釈します
+     * 
+     * @param event メッセージイベント
+     */
+    public void handleTextMessageEvent(MessageEvent<TextMessageContent> event) {
         String replyToken = event.getReplyToken();
         TextMessageContent message = event.getMessage();
         String text = message.getText();
