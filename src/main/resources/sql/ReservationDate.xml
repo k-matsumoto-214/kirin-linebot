@@ -8,5 +8,5 @@
           (ID, NAME, DATE, CREATEDA_AT, UPDATED_AT) 
         VALUES 
           (null, #{targetName}, #{reservationDate}, SYSDATE(), SYSDATE())
-    </select>
+    </insert>
 </mapper>
