@@ -8,7 +8,6 @@ import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.linecorp.bot.model.action.Action;
 import com.linecorp.bot.model.action.DatetimePickerAction;
@@ -35,7 +34,6 @@ public class TemplateFactory {
    * @return 予約日付一覧を表示するメッセージテンプレート
    */
   public TemplateMessage reservationDateMessage(List<String> targetNames) {
-    URI imageUrl = this.createURI(imagePath);
     LocalDate now = LocalDate.now(ZONE_ID);
     List<Action> datetimePickerActions = targetNames.stream()
         .map(targetName -> DatetimePickerAction.OfLocalDate
@@ -48,24 +46,10 @@ public class TemplateFactory {
             .build())
         .collect(Collectors.toUnmodifiableList());
     ButtonsTemplate buttonTemplate = new ButtonsTemplate(
-        imageUrl,
+        URI.create(imagePath),
         DATE_TEXT,
         DESCRIPTION_DATE,
         datetimePickerActions);
     return new TemplateMessage(DEFAULT_ALT_TEXT, buttonTemplate);
-  }
-
-  /**
-   * LINE用の画像パスを返す内部メソッド
-   * 
-   * @param path 画像へのパス文字列
-   * @return LINE用の画像URIオブジェクト
-   */
-  private URI createURI(String path) {
-    return ServletUriComponentsBuilder.fromCurrentContextPath()
-        .scheme("https")
-        .path(imagePath)
-        .build()
-        .toUri();
   }
 }

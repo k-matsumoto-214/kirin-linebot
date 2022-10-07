@@ -10,4 +10,4 @@ line:
     handler:
       path: /callback
     image:
-      kirin: /image/kirin_reserve.jpeg
+      kirin: ${KIRIN_IMAGE}
