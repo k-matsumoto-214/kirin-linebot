@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.linecorp.bot.model.action.Action;
@@ -14,6 +15,7 @@ import com.linecorp.bot.model.action.DatetimePickerAction;
 import com.linecorp.bot.model.message.TemplateMessage;
 import com.linecorp.bot.model.message.template.ButtonsTemplate;
 
+@Component
 public class TemplateFactory {
 
   @Value("${line.bot.image.kirin}")
