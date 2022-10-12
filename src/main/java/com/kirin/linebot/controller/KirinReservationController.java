@@ -6,6 +6,14 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.kirin.linebot.model.ReservationDate;
+import com.kirin.linebot.model.ReservationType;
+import com.kirin.linebot.model.dto.ReservationTypeDto;
+import com.kirin.linebot.model.type.ReservationName;
+import com.kirin.linebot.model.type.ReservationTime;
 import com.kirin.linebot.service.LineMessageService;
 import com.kirin.linebot.service.ReservationService;
 import com.linecorp.bot.model.event.MessageEvent;
@@ -25,14 +33,21 @@ public class KirinReservationController {
     private static final DateTimeFormatter DTF_TO_DATE = DateTimeFormatter.ofPattern("yyyy-MM-dd");
     private static final DateTimeFormatter DTF_TO_STRING = DateTimeFormatter.ofPattern("yyyy年MM月dd日");
 
-    private static final String DEFAULT_REPLY = "\"予約\"や\"よやく\"と入力して予約を開始しよう!";
+    private static final List<ReservationType> reservationTypes = List.of(
+            ReservationType.of(ReservationName.NAO, ReservationTime.AM),
+            ReservationType.of(ReservationName.NAO, ReservationTime.PM),
+            ReservationType.of(ReservationName.KYO, ReservationTime.AM),
+            ReservationType.of(ReservationName.KYO, ReservationTime.PM));
 
-    private static final List<String> NAMES = List.of("尚大", "匡平");
+    private static final String DEFAULT_REPLY = "\"予約\"や\"よやく\"と入力して予約を開始しよう!";
 
     private static final String POST_BACK_DATE_KEY = "date";
 
-    private static final String RESERVATION_SUCCESS_MESSAGE = "%sの予約に成功したよ!(%s)";
-    private static final String RESERVATION_FAILURE_MESSAGE = "%sの予約に失敗しちゃいました。。。(%s)";
+    private static final String RESERVATION_SUCCESS_MESSAGE = "%sの予約に成功したよ!(%s %s)";
+    private static final String RESERVATION_FAILURE_MESSAGE = "%sの予約に失敗しちゃいました。。。(%s %s)";
+    private static final String RESERVATION_DUPUILCATION_MESSAGE = "既に予約済みだよ！";
+
+    private static final ObjectMapper objectMapper = new ObjectMapper();
 
     @EventMapping
     /**
@@ -40,9 +55,13 @@ public class KirinReservationController {
      * 
      * @param event POSTイベント
      */
-    public void handlePostbackEvent(PostbackEvent event) {
+    public void handlePostbackEvent(PostbackEvent event) throws JsonMappingException, JsonProcessingException {
         String replyToken = event.getReplyToken();
-        String targetName = event.getPostbackContent().getData();
+        String reservationTypeString = event.getPostbackContent().getData();
+
+        // 予約種別情報を取得
+        ReservationTypeDto dto = objectMapper.readValue(reservationTypeString, ReservationTypeDto.class);
+        ReservationType reservationType = ReservationType.from(dto);
 
         // 予約対象の日付を取得
         LocalDate targeDate = LocalDate.parse(
@@ -51,16 +70,31 @@ public class KirinReservationController {
         // 表示用に日付を成形する
         String targetDateString = targeDate.format(DTF_TO_STRING);
 
+        // DBに登録済みか確認する
+        ReservationDate reservationDate = reservationService.findReservationTarget(targeDate, reservationType);
+
+        if (!reservationDate.isEmpty()) {
+            // 登録済みの時処理終了
+            lineMessageService.sendText(replyToken, RESERVATION_DUPUILCATION_MESSAGE);
+            return;
+        }
+
         // DB登録実行
-        boolean isReservationSuccess = reservationService.reserve(targeDate, targetName);
+        boolean isReservationSuccess = reservationService.reserve(targeDate, reservationType);
 
         // DB登録結果によって送信メッセージを変更
         if (isReservationSuccess) {
             lineMessageService.sendText(replyToken,
-                    String.format(RESERVATION_SUCCESS_MESSAGE, targetName, targetDateString));
+                    String.format(RESERVATION_SUCCESS_MESSAGE,
+                            reservationType.getReservationName().getValue(),
+                            targetDateString,
+                            reservationType.getReservationTime().getDiscription()));
         } else {
             lineMessageService.sendText(replyToken,
-                    String.format(RESERVATION_FAILURE_MESSAGE, targetName, targetDateString));
+                    String.format(RESERVATION_FAILURE_MESSAGE,
+                            reservationType.getReservationName().getValue(),
+                            targetDateString,
+                            reservationType.getReservationTime().getDiscription()));
         }
     }
 
@@ -80,7 +114,7 @@ public class KirinReservationController {
             case "よや":
             case "よやく":
             case "予約":
-                lineMessageService.sendReservationDate(replyToken, NAMES);
+                lineMessageService.sendReservationType(replyToken, reservationTypes);
                 break;
             default:
                 lineMessageService.sendText(replyToken, DEFAULT_REPLY);

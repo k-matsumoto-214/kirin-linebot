@@ -2,11 +2,25 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.kirin.linebot.repository.mapper.ReservationDateMapper">
+<mapper namespace="com.kirin.linebot.repository.mapper.ReservationMapper">
+
+    <resultMap id="reservationDto" type="com.kirin.linebot.repository.entity.ReservationDto">
+      <id property="name" column="NAME" />
+      <result property="date" column="DATE" />
+      <result property="reservationTime" column="RESERVATION_TIME" />
+    </resultMap>
+
+    <select id="findReservation" resultMap="reservationDto">
+        SELECT NAME, DATE, RESERVATION_TIME FROM RESERVATION_DATE 
+        WHERE DATE = #{reservationDate}
+        AND RESERVATION_TIME = #{reservationType.reservationTime.value}
+        AND NAME = #{reservationType.reservationName.value}
+    </select>
+
     <insert id="insert">
         INSERT INTO RESERVATION_DATE
-          (ID, NAME, DATE, CREATEDA_AT, UPDATED_AT) 
+          (NAME, DATE, RESERVATION_TIME, CREATEDA_AT, UPDATED_AT) 
         VALUES 
-          (null, #{targetName}, #{reservationDate}, SYSDATE(), SYSDATE())
+          (#{reservationType.reservationName.value}, #{reservationDate}, #{reservationType.reservationTime.value}, SYSDATE(), SYSDATE())
     </insert>
 </mapper>

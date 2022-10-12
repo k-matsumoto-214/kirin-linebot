@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.kirin.linebot.factory.TemplateFactory;
+import com.kirin.linebot.model.ReservationType;
 import com.linecorp.bot.client.LineMessagingClient;
 import com.linecorp.bot.model.ReplyMessage;
 import com.linecorp.bot.model.message.TemplateMessage;
@@ -49,18 +50,18 @@ public class LineMessageService {
   }
 
   /**
-   * LINEで日付一覧を送信する
+   * LINEで予約条件一覧を送信する
    * 
-   * @param replyToken 返信用トークン
-   * @param targetName 予約を行う対象の名前
+   * @param replyToken       返信用トークン
+   * @param reservationTypes 送信する予約種別ドメイン一覧
    */
-  public void sendReservationDate(@NonNull String replyToken, @NonNull List<String> targetNames) {
+  public void sendReservationType(@NonNull String replyToken, @NonNull List<ReservationType> reservationTypes) {
     if (replyToken.isEmpty()) {
       throw new IllegalArgumentException("replyToken must not be empty");
     }
 
-    // テンプレファクトリクラスから予約可能日付一覧のテンプレを取得
-    TemplateMessage message = templateFactory.reservationDateMessage(targetNames);
+    // テンプレファクトリクラスから予約種別一覧のテンプレを取得
+    TemplateMessage message = templateFactory.reservationTypeMessage(reservationTypes);
 
     try {
       BotApiResponse apiResponse = lineMessagingClient
