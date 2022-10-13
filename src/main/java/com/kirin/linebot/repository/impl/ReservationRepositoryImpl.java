@@ -10,11 +10,9 @@ import com.kirin.linebot.repository.ReservationRepository;
 import com.kirin.linebot.repository.mapper.ReservationMapper;
 
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 
 @Repository
 @RequiredArgsConstructor
-@Slf4j
 public class ReservationRepositoryImpl implements ReservationRepository {
 
   private final ReservationMapper mapper;
@@ -26,8 +24,6 @@ public class ReservationRepositoryImpl implements ReservationRepository {
 
   @Override
   public ReservationDate findReservation(LocalDate reservationDate, ReservationType reservationType) {
-
-    log.error(reservationDate.toString() + " : " + reservationType.getReservationName().getValue());
     return ReservationDate.from(mapper.findReservation(reservationDate, reservationType));
 
   }
