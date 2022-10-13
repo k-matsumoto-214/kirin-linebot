@@ -43,9 +43,9 @@ public class KirinReservationController {
 
     private static final String POST_BACK_DATE_KEY = "date";
 
-    private static final String RESERVATION_SUCCESS_MESSAGE = "%sの予約に成功したよ!(%s %s)";
-    private static final String RESERVATION_FAILURE_MESSAGE = "%sの予約に失敗しちゃいました。。。(%s %s)";
-    private static final String RESERVATION_DUPUILCATION_MESSAGE = "既に予約済みだよ！";
+    private static final String RESERVATION_SUCCESS_MESSAGE = "%sの予約の予約に成功したよ!(%s %s)";
+    private static final String RESERVATION_FAILURE_MESSAGE = "%sの予約の予約に失敗しちゃいました。。。(%s %s)";
+    private static final String RESERVATION_DUPUILCATION_MESSAGE = "既に予約の予約済みだよ！";
 
     private static final ObjectMapper objectMapper = new ObjectMapper();
 
