@@ -1,11 +1,9 @@
 package com.kirin.linebot.model;
 
+import com.kirin.linebot.model.type.ReservationTime;
+import com.kirin.linebot.repository.database.entity.ReservationDto;
 import java.time.LocalDate;
 import java.util.Objects;
-
-import com.kirin.linebot.model.type.ReservationTime;
-import com.kirin.linebot.repository.entity.ReservationDto;
-
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -22,7 +20,7 @@ public class ReservationDate {
 
   /**
    * 予約日付モデルのファクトリ
-   * 
+   *
    * @param dto DBから取得した予約日付DTO
    * @return 予約日付モデル
    */
@@ -40,7 +38,7 @@ public class ReservationDate {
 
   /**
    * 空ドメイン生成
-   * 
+   *
    * @return 空の予約情報日付ドメイン
    */
   public static ReservationDate empty() {
@@ -53,7 +51,7 @@ public class ReservationDate {
 
   /**
    * 空ドメイン判定
-   * 
+   *
    * @return ドメインが空の時true
    */
   public boolean isEmpty() {

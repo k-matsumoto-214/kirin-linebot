@@ -1,16 +1,13 @@
 package com.kirin.linebot.service;
 
-import java.time.LocalDate;
-
-import org.springframework.retry.annotation.Retryable;
-import org.springframework.stereotype.Service;
-
 import com.kirin.linebot.model.ReservationDate;
 import com.kirin.linebot.model.ReservationType;
-import com.kirin.linebot.repository.ReservationRepository;
-
+import com.kirin.linebot.repository.database.ReservationRepository;
+import java.time.LocalDate;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.retry.annotation.Retryable;
+import org.springframework.stereotype.Service;
 
 @RequiredArgsConstructor
 @Slf4j
@@ -23,7 +20,7 @@ public class ReservationService {
    * DBに予約情報を登録するよ
    * <p>
    * DB登録に成功した時trueが返るよ
-   * 
+   *
    * @param date            予約対象日付
    * @param reservationType 予約種別情報
    * @return DB保存結果 成功:true
@@ -40,13 +37,14 @@ public class ReservationService {
 
   /**
    * DBから予約情報を取得する
-   * 
+   *
    * @param reservationType 予約種別情報ドメイン
    * @param targeDate       予約対象日付
    * @return 予約情報
    */
   @Retryable
-  public ReservationDate findReservationTarget(LocalDate targeDate, ReservationType reservationType) {
+  public ReservationDate findReservationTarget(LocalDate targeDate,
+      ReservationType reservationType) {
     // DBから予約情報を取得
     return reservationRepository.findReservation(targeDate, reservationType);
   }
