@@ -5,7 +5,10 @@ on:
     branches: [ master ]
 
 jobs:
+  test:
+   uses: ./.github/workflows/maven-test.yaml
   deploy:
+    needs: [test]
     runs-on: ubuntu-latest
     permissions:
       contents: read
