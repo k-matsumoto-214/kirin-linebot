@@ -10,20 +10,22 @@ import com.kirin.linebot.model.ReservationType
 import com.kirin.linebot.model.type.ReservationName
 import com.kirin.linebot.model.type.ReservationTime
 import com.kirin.linebot.repository.database.CsvDataSetLoader
+import org.mybatis.spring.boot.test.autoconfigure.MybatisTest
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.boot.test.context.SpringBootTest
+import org.springframework.context.annotation.Import
 import org.springframework.test.context.TestExecutionListeners
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener
 import spock.lang.Specification
 
 import java.time.LocalDate
 
-@SpringBootTest
+@MybatisTest
 @DbUnitConfiguration(dataSetLoader = CsvDataSetLoader.class)
 @TestExecutionListeners([
         DependencyInjectionTestExecutionListener.class,
         TransactionDbUnitTestExecutionListener.class
 ])
+@Import(ReservationRepositoryImpl.class)
 class ReservationRepositoryImplSpec extends Specification {
 
     @Autowired

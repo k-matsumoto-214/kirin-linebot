@@ -1,6 +1,8 @@
-package com.kirin.linebot.model.type
+package com.kirin.linebot.model
 
-import com.kirin.linebot.model.ReservationDate
+
+import com.kirin.linebot.model.type.ReservationName
+import com.kirin.linebot.model.type.ReservationTime
 import com.kirin.linebot.repository.database.entity.ReservationDto
 import spock.lang.Specification
 
@@ -24,5 +26,30 @@ class ReservationDateSpec extends Specification {
         actual.getReservationTime() == ReservationTime.PM
         actual.getName() == ReservationName.NAO.getValue()
         actual.getDate() == now
+    }
+
+    def "from_ファクトリ_引数が不正"() {
+        when:
+        def actual = ReservationDate.from(null)
+
+        then:
+        actual.isEmpty() == true
+    }
+
+    def "empty_空ドメイン生成"() {
+        when:
+        def actual = ReservationDate.empty()
+
+        then:
+        actual.getName() == ""
+    }
+
+    def "isEmpty_空ドメイン判定"() {
+        when:
+        def actual = ReservationDate.empty()
+
+        then:
+        actual.getName() == ""
+        actual.isEmpty() == true
     }
 }

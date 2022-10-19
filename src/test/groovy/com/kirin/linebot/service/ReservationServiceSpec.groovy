@@ -6,25 +6,27 @@ import com.kirin.linebot.repository.database.ReservationRepository
 import org.spockframework.spring.SpringBean
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
+import org.springframework.retry.annotation.EnableRetry
 import spock.lang.Specification
 
 import java.time.LocalDate
 
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE)
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE, classes = ReservationService)
+@EnableRetry
 class ReservationServiceSpec extends Specification {
 
     @Autowired
     ReservationService reservationService
 
     @SpringBean
-    private ReservationRepository reservationRepository = Mock()
+    ReservationRepository reservationRepository = Mock()
 
     def "reserve_正常"() {
         setup:
         1 * reservationRepository.insertReservationDate(*_)
 
         when:
-        def actual = reservationService.reserve(Mock(LocalDate), Mock(ReservationType))
+        def actual = reservationService.reserve(GroovyMock(LocalDate), Mock(ReservationType))
 
         then:
         actual == true
@@ -35,7 +37,7 @@ class ReservationServiceSpec extends Specification {
         1 * reservationRepository.insertReservationDate(*_) >> { throw new RuntimeException() }
 
         when:
-        def actual = reservationService.reserve(Mock(LocalDate), Mock(ReservationType))
+        def actual = reservationService.reserve(GroovyMock(LocalDate), Mock(ReservationType))
 
         then:
         actual == false
