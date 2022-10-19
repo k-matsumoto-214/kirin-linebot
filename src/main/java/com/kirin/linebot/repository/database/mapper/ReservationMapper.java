@@ -1,11 +1,9 @@
-package com.kirin.linebot.repository.mapper;
-
-import java.time.LocalDate;
-
-import org.apache.ibatis.annotations.Mapper;
+package com.kirin.linebot.repository.database.mapper;
 
 import com.kirin.linebot.model.ReservationType;
-import com.kirin.linebot.repository.entity.ReservationDto;
+import com.kirin.linebot.repository.database.entity.ReservationDto;
+import java.time.LocalDate;
+import org.apache.ibatis.annotations.Mapper;
 
 @Mapper
 public interface ReservationMapper {

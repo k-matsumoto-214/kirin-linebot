@@ -1,16 +1,13 @@
-package com.kirin.linebot.repository.impl;
-
-import java.time.LocalDate;
-
-import org.springframework.stereotype.Repository;
+package com.kirin.linebot.repository.database.impl;
 
 import com.kirin.linebot.model.ReservationDate;
 import com.kirin.linebot.model.ReservationType;
-import com.kirin.linebot.repository.ReservationRepository;
-import com.kirin.linebot.repository.mapper.ReservationMapper;
-
+import com.kirin.linebot.repository.database.ReservationRepository;
+import com.kirin.linebot.repository.database.mapper.ReservationMapper;
+import java.time.LocalDate;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Repository;
 
 @Repository
 @RequiredArgsConstructor
@@ -25,9 +22,9 @@ public class ReservationRepositoryImpl implements ReservationRepository {
   }
 
   @Override
-  public ReservationDate findReservation(LocalDate reservationDate, ReservationType reservationType) {
+  public ReservationDate findReservation(LocalDate reservationDate,
+      ReservationType reservationType) {
 
-    log.error(reservationDate.toString() + " : " + reservationType.getReservationName().getValue());
     return ReservationDate.from(mapper.findReservation(reservationDate, reservationType));
 
   }
