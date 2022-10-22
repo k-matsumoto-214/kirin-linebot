@@ -22,6 +22,6 @@
     (NAME, DATE, RESERVATION_TIME, CREATEDA_AT, UPDATED_AT)
     VALUES
     (#{reservationType.reservationName.value}, #{reservationDate},
-    #{reservationType.reservationTime.value}, CURRENT_DATE(), CURRENT_DATE())
+    #{reservationType.reservationTime.value}, CURRENT_TIMESTAMP(), CURRENT_TIMESTAMP())
   </insert>
 </mapper>
