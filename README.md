@@ -36,6 +36,8 @@
   - 予約成功時には、予約順・問診票へのリンクを含んだ通知を送信する
 
 ### 動作イメージ
+![linebot](https://github.com/k-matsumoto-214/kirin-linebot/assets/91876695/9153b065-be71-4519-aa62-87892bfc0eec)
+![スクリーンショット 2023-10-05 11 37 29](https://github.com/k-matsumoto-214/kirin-linebot/assets/91876695/4e0df785-2cd5-495f-9627-ed460da1b415)
 
 
 
